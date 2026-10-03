@@ -5,8 +5,8 @@
     <string name="btnLogin">Iniciar Sesión</string>
     <string name="lblEmail">Correo Electrónico</string>
     <string name="lblPassword">Contraseña</string>
-    <string name="lblBienvenida">BIENVENIDO</string>
+    <string name="lblWelcome">BIENVENIDO</string>
     <string name="lblLogin">Inicio de Sesión</string>
-    <string name="lblAccederCuenta">Ingresa tus datos para acceder a tu cuenta</string>
-    <string name="lblCrearCuenta">¿Primera vez? Crea una cuenta</string>
+    <string name="lblAccess">Ingresa tus datos para acceder a tu cuenta</string>
+    <string name="lblCreate">¿Primera vez? Crea una cuenta</string>
 </resources>

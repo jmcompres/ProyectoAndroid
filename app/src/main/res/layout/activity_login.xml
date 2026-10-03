@@ -21,14 +21,15 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/lblBienvenida"
+                android:id="@+id/lblWelcome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="80dp"
                 android:letterSpacing="0.1"
-                android:text="@string/lblBienvenida"
+                android:text="@string/lblWelcome"
                 android:textAllCaps="true"
+                android:textColor="@color/txt_welcome"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,18 +40,20 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
                 android:text="@string/lblLogin"
+                android:textColor="@color/txt_title"
                 android:textSize="34sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblBienvenida" />
+                app:layout_constraintTop_toBottomOf="@+id/lblWelcome" />
 
             <TextView
-                android:id="@+id/lblAccederCuenta"
+                android:id="@+id/lblAccess"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="8dp"
-                android:text="@string/lblAccederCuenta"
+                android:text="@string/lblAccess"
+                android:textColor="@color/txt_gray"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lblLogin" />
 
@@ -61,9 +64,10 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="32dp"
                 android:text="@string/lblEmail"
+                android:textColor="@color/txt_title"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lblAccederCuenta" />
+                app:layout_constraintTop_toBottomOf="@+id/lblAccess" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout"
@@ -74,6 +78,10 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
                 app:boxBackgroundMode="outline"
+                app:boxCornerRadiusBottomEnd="16dp"
+                app:boxCornerRadiusBottomStart="16dp"
+                app:boxCornerRadiusTopEnd="16dp"
+                app:boxCornerRadiusTopStart="16dp"
                 app:hintEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -94,6 +102,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="24dp"
                 android:text="@string/lblPassword"
+                android:textColor="@color/txt_title"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
@@ -107,6 +116,10 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
                 app:boxBackgroundMode="outline"
+                app:boxCornerRadiusBottomEnd="16dp"
+                app:boxCornerRadiusBottomStart="16dp"
+                app:boxCornerRadiusTopEnd="16dp"
+                app:boxCornerRadiusTopStart="16dp"
                 app:endIconMode="password_toggle"
                 app:hintEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -128,18 +141,25 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
+                android:backgroundTint="@color/btn_dark"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
                 android:text="@string/btnLogin"
+                android:textColor="@color/white"
+                app:cornerRadius="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
 
             <TextView
-                android:id="@+id/lblCrearCuenta"
+                android:id="@+id/lblCreate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="197dp"
                 android:layout_marginBottom="48dp"
-                android:text="@string/lblCrearCuenta"
+                android:text="@string/lblCreate"
+                android:textColor="@color/txt_title"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
