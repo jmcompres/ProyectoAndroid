@@ -46,4 +46,8 @@ dependencies {
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.storage)
     implementation(libs.firebase.messaging)
+
+
+    compileOnly(libs.lombok)
+    annotationProcessor(libs.lombok)
 }
