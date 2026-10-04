@@ -9,4 +9,5 @@
     <color name="border_input">#CFB995</color>
     <color name="btn_dark">#171614</color>
     <color name="bg_input_light">#4DFFFFFF</color>
+    <color name="message_card_sender_user_color">#2A2424</color>
 </resources>
