@@ -1,5 +1,23 @@
 <resources>
     <string name="app_name">ProyectoAndroid</string>
+    <string name="txtEmail">nombre@ejemplo.com</string>
+    <string name="txtPassword">Tu contraseña</string>
+    <string name="btnLogin">Iniciar Sesión</string>
+    <string name="lblEmail">Correo Electrónico</string>
+    <string name="lblPassword">Contraseña</string>
+    <string name="lblWelcome">BIENVENIDO</string>
+    <string name="lblLogin">Inicio de Sesión</string>
+    <string name="lblAccess">Ingresa tus datos para acceder a tu cuenta</string>
+    <string name="lblSignUpLink">¿Primera vez? Crea una cuenta</string>
+    <string name="lblSignUpClick">Crea una cuenta</string>
+    <string name="lblNewUser">Nuevo Usuario</string>
+    <string name="lblCreateAccount">Crea tu cuenta</string>
+    <string name="lblCreateAccountSubtitle">Ingresa tus datos para crear tu cuenta</string>
+    <string name="lblName">Nombre Completo</string>
+    <string name="txtName">Tu nombre</string>
+    <string name="btnCreateAccount">Crear cuenta</string>
+    <string name="lblSignInLink">¿Ya tienes una cuenta? Inicia sesión</string>
+    <string name="lblSignInClick">Inicia sesión</string>
     <string name="title_activity_chat">ChatActivity</string>
     <string name="send_message_text">Send</string>
     <string name="hint_message_content_edit">Write a message...</string>
