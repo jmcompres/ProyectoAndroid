@@ -19,20 +19,20 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.pucmm.icc451.proyectoandroid.R;
-import com.pucmm.icc451.proyectoandroid.databinding.ActivityLoginBinding;
+import com.pucmm.icc451.proyectoandroid.databinding.ActivityRegisterBinding;
 
-public class LoginActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
-    ActivityLoginBinding binding;
+    ActivityRegisterBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        setupSignUpLink();
+        setupSignInLink();
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.main, (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
@@ -41,8 +41,8 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void setupSignUpLink(){
-        String fullText = binding.lblSignUpLink.getText().toString();
+    private void setupSignInLink() {
+        String fullText = binding.lblSignInLink.getText().toString();
         String clickableText = getString(R.string.lblSignUpClick);
 
         SpannableString spannableString = new SpannableString(fullText);
@@ -54,20 +54,20 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(@NonNull View widget) {
                 // Pendiente de implementar el intent para el registro
-                Toast.makeText(LoginActivity.this, "Pendiente de implementar", Toast.LENGTH_SHORT).show();
+                Toast.makeText(RegisterActivity.this, "Pendiente de implementar", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void updateDrawState(@NonNull TextPaint ds) {
                 super.updateDrawState(ds);
-                ds.setColor(ContextCompat.getColor(LoginActivity.this, R.color.btn_dark));
+                ds.setColor(ContextCompat.getColor(RegisterActivity.this, R.color.btn_dark));
                 ds.setTypeface(Typeface.DEFAULT_BOLD);
             }
         };
 
         spannableString.setSpan(clickableSpan, startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-        binding.lblSignUpLink.setText(spannableString);
-        binding.lblSignUpLink.setMovementMethod(LinkMovementMethod.getInstance());
+        binding.lblSignInLink.setText(spannableString);
+        binding.lblSignInLink.setMovementMethod(LinkMovementMethod.getInstance());
     }
 }
