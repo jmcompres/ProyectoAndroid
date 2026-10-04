@@ -8,7 +8,6 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -43,7 +42,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void setupSignInLink() {
         String fullText = binding.lblSignInLink.getText().toString();
-        String clickableText = getString(R.string.lblSignUpClick);
+        String clickableText = getString(R.string.lblSignInClick);
 
         SpannableString spannableString = new SpannableString(fullText);
 
@@ -53,8 +52,7 @@ public class RegisterActivity extends AppCompatActivity {
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View widget) {
-                // Pendiente de implementar el intent para el registro
-                Toast.makeText(RegisterActivity.this, "Pendiente de implementar", Toast.LENGTH_SHORT).show();
+                finish();
             }
 
             @Override
