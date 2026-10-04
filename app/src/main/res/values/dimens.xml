@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="message_card_corner_radius">12dp</dimen>
+    <dimen name="message_card_margin">10dp</dimen>
+    <dimen name="message_card_text_separation">7dp</dimen>
+    <dimen name="message_card_message_content_text_size">10sp</dimen>
+    <dimen name="message_card_time_stamp_text_size">8sp</dimen>
+    <dimen name="message_card_external_margin">4dp</dimen>
+</resources>
