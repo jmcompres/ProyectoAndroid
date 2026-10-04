@@ -16,10 +16,14 @@ import java.util.List;
 
 import lombok.Setter;
 
-@Setter
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
 
     private List<String> messages = new ArrayList<>();
+
+    public void setMessages (List<String> messages) {
+        this.messages = messages;
+        notifyDataSetChanged();
+    }
 
     @NonNull
     @Override

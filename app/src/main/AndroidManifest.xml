@@ -26,9 +26,14 @@
             android:exported="true"
             android:label="@string/title_activity_chat"
             android:theme="@style/Theme.ProyectoAndroid"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.ChatsListActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
