@@ -19,6 +19,6 @@
     <string name="lblSignInLink">¿Ya tienes una cuenta? Inicia sesión</string>
     <string name="lblSignInClick">Inicia sesión</string>
     <string name="title_activity_chat">ChatActivity</string>
-    <string name="send_message_text">Send</string>
-    <string name="hint_message_content_edit">Write a message...</string>
+    <string name="send_message_text">Enviar</string>
+    <string name="hint_message_content_edit">Escribe un mensaje...</string>
 </resources>

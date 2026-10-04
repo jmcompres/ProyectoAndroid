@@ -16,14 +16,13 @@
         android:id="@+id/cardMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/message_card_external_margin"
-        android:layout_marginTop="@dimen/message_card_external_margin"
-        android:layout_marginRight="@dimen/message_card_external_margin"
-        android:layout_marginBottom="@dimen/message_card_external_margin"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:orientation="vertical"
-        app:cardBackgroundColor="#E9DDC0"
-        app:cardCornerRadius="@dimen/message_card_corner_radius"
-
+        app:cardBackgroundColor="#FDFBF8"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="2dp"
         app:layout_constrainedWidth="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guidelineMaximo"
@@ -31,56 +30,51 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/lytMessageWrapper"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:padding="16dp">
 
             <TextView
                 android:id="@+id/txtSenderUser"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/message_card_margin"
-                android:layout_marginTop="@dimen/message_card_margin"
-                android:layout_marginEnd="@dimen/message_card_margin"
-                android:text="a"
-                android:textColor="@color/message_card_sender_user_color"
+                android:letterSpacing="0.1"
+                android:textAllCaps="true"
+                android:textColor="#957A59"
+                android:textSize="11sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="CONTACTO" />
 
             <TextView
                 android:id="@+id/txtMessageContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/message_card_margin"
-                android:layout_marginTop="@dimen/message_card_text_separation"
-                android:layout_marginEnd="@dimen/message_card_margin"
-                android:text="prueba"
-                android:textSize="@dimen/message_card_message_content_text_size"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/txt_title"
+                android:textSize="15sp"
                 app:layout_constrainedWidth="true"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtSenderUser" />
+                app:layout_constraintTop_toBottomOf="@+id/txtSenderUser"
+                tools:text="Mensaje enviado por el contacto" />
 
             <TextView
                 android:id="@+id/txtTimeStamp"
                 android:layout_width="wrap_content"
-                android:layout_height="11dp"
-                android:layout_marginStart="@dimen/message_card_margin"
-                android:layout_marginTop="@dimen/message_card_text_separation"
-                android:layout_marginEnd="@dimen/message_card_margin"
-                android:layout_marginBottom="@dimen/message_card_margin"
-                android:text="txtTimeStamp"
-                android:textSize="@dimen/message_card_time_stamp_text_size"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textColor="@color/txt_gray"
+                android:textSize="10sp"
+                tools:text="10:31"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtMessageContent" />;
+                app:layout_constraintTop_toBottomOf="@+id/txtMessageContent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.cardview.widget.CardView>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

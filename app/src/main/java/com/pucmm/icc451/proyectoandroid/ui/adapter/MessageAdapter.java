@@ -24,7 +24,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     @NonNull
     @Override
     public MessageViewHolder onCreateViewHolder (@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message, parent, false);
+        //TODO cambiar el tipo de contenedor de mesnaje según quien envíe el mensaje
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message_sent, parent, false);
         return new MessageViewHolder(view);
     }
 
@@ -33,7 +34,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         String message = messages.get(position);
         holder.textContent.setText(message);
         //TODO cambiar el usuario y el teimestamp
-        holder.textUserName.setText("a");
+        holder.textUserName.setText("TÚ");
         holder.textTimeStamp.setText("12:00 P.M.");
     }
 
@@ -50,7 +51,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         public MessageViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            textUserName = itemView.findViewById(R.id.txtSenderUser);
+            //textUserName = itemView.findViewById(R.id.txtSenderUser);
+            textUserName = itemView.findViewById(R.id.txtSelfUser);
             textContent = itemView.findViewById(R.id.txtMessageContent);
             textTimeStamp = itemView.findViewById(R.id.txtTimeStamp);
         }
