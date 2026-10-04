@@ -9,6 +9,7 @@ import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -17,13 +18,16 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.pucmm.icc451.proyectoandroid.R;
 import com.pucmm.icc451.proyectoandroid.databinding.ActivityLoginBinding;
+import com.pucmm.icc451.proyectoandroid.viewmodel.AuthViewModel;
 
 public class LoginActivity extends AppCompatActivity {
 
     ActivityLoginBinding binding;
+    private AuthViewModel authViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +36,12 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+
         setupSignUpLink();
+        setupObservers();
+        setupClickListener();
+
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.main, (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());
@@ -53,6 +62,11 @@ public class LoginActivity extends AppCompatActivity {
         ClickableSpan clickableSpan = new ClickableSpan() {
             @Override
             public void onClick(@NonNull View widget) {
+                binding.txtEmail.setText("");
+                binding.txtPassword.setText("");
+
+                authViewModel.clearFormState();
+
                 Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
@@ -69,5 +83,41 @@ public class LoginActivity extends AppCompatActivity {
 
         binding.lblSignUpLink.setText(spannableString);
         binding.lblSignUpLink.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    private void setupObservers() {
+        authViewModel.getIsLoading().observe(this, isLoading -> {
+            binding.btnLogin.setEnabled(!isLoading);
+        });
+
+        authViewModel.getAuthError().observe(this, errorMsg -> {
+            if (errorMsg != null) {
+                Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
+            }
+        });
+
+        authViewModel.getAuthSuccess().observe(this, success -> {
+            if (success != null && success) {
+                Toast.makeText(this, "¡Inicio de sesión exitoso!", Toast.LENGTH_SHORT).show();
+                // pendiente poner el intent para la vista principal
+            }
+        });
+
+        authViewModel.getEmailError().observe(this, errorMsg -> {
+            binding.ilEmail.setError(errorMsg);
+        });
+
+        authViewModel.getPasswordError().observe(this, errorMsg -> {
+            binding.ilPassword.setError(errorMsg);
+        });
+    }
+
+    private void setupClickListener() {
+        binding.btnLogin.setOnClickListener(v -> {
+            String email = binding.txtEmail.getText().toString().trim();
+            String password = binding.txtPassword.getText().toString().trim();
+
+            authViewModel.login(email, password);
+        });
     }
 }
