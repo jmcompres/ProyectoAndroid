@@ -10,12 +10,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pucmm.icc451.proyectoandroid.R;
 import com.pucmm.icc451.proyectoandroid.databinding.ActivityChatBinding;
+import com.pucmm.icc451.proyectoandroid.enums.Extras;
 import com.pucmm.icc451.proyectoandroid.ui.adapter.MessageAdapter;
+import com.pucmm.icc451.proyectoandroid.viewmodel.ChatViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +28,7 @@ public class ChatActivity extends AppCompatActivity {
     private ActivityChatBinding binding;
 
     private MessageAdapter adapter;
-    private List<String> messagesList = new ArrayList<>();
+    private ChatViewModel chatViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,18 +41,22 @@ public class ChatActivity extends AppCompatActivity {
         adapter = new MessageAdapter();
         binding.recyclerViewMessages.setAdapter(adapter);
 
+        chatViewModel = new ChatViewModel();
+
+        chatViewModel.getMessages().observe(this, messages -> {
+            adapter.setMessages(messages);
+            if (!messages.isEmpty()) {
+                binding.recyclerViewMessages.scrollToPosition(messages.size() - 1);
+            }
+        });
+
         binding.btnSendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String text = binding.editMessageText.getText().toString();
-
-                if (!text.trim().isEmpty()) {
-                    messagesList.add(text);
-                    adapter.setMessages(messagesList);
-
-                    binding.editMessageText.setText("");
-                    binding.recyclerViewMessages.scrollToPosition(messagesList.size()-1);
-                }
+                String receiverId = getIntent().getStringExtra(Extras.EXTRA_TARGET_USER.name());
+                boolean updated = chatViewModel.sendMessage(text, receiverId);
+                if (updated) binding.editMessageText.setText("");
             }
         });
     }

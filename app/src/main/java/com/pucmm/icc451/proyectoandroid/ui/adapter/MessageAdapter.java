@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.annotation.NonNull;
 
 import com.pucmm.icc451.proyectoandroid.R;
+import com.pucmm.icc451.proyectoandroid.model.Message;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +19,9 @@ import lombok.Setter;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
 
-    private List<String> messages = new ArrayList<>();
+    private List<Message> messages = new ArrayList<>();
 
-    public void setMessages (List<String> messages) {
+    public void setMessages (List<Message> messages) {
         this.messages = messages;
         notifyDataSetChanged();
     }
@@ -35,8 +36,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
-        String message = messages.get(position);
-        holder.textContent.setText(message);
+        Message message = messages.get(position);
+        holder.textContent.setText(message.getText());
         //TODO cambiar el usuario y el teimestamp
         holder.textUserName.setText("TÚ");
         holder.textTimeStamp.setText("12:00 P.M.");
