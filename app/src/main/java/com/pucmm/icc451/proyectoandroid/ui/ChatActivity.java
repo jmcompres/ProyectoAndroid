@@ -55,7 +55,7 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String text = binding.editMessageText.getText().toString();
                 String receiverId = getIntent().getStringExtra(Extras.EXTRA_TARGET_USER_ID.name());
-                boolean updated = chatViewModel.sendMessage(text, receiverId);
+                boolean updated = chatViewModel.sendMessage(text, receiverId, binding.txtToolbarUserName.getText().toString());
                 if (updated) binding.editMessageText.setText("");
             }
         });

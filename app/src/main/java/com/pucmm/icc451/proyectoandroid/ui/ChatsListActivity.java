@@ -16,9 +16,12 @@ import com.pucmm.icc451.proyectoandroid.R;
 import com.pucmm.icc451.proyectoandroid.databinding.ActivityChatBinding;
 import com.pucmm.icc451.proyectoandroid.databinding.ActivityChatsListBinding;
 import com.pucmm.icc451.proyectoandroid.enums.Extras;
+import com.pucmm.icc451.proyectoandroid.model.User;
+import com.pucmm.icc451.proyectoandroid.repository.UserRepository;
 import com.pucmm.icc451.proyectoandroid.ui.adapter.ChatAdapter;
 import com.pucmm.icc451.proyectoandroid.ui.adapter.MessageAdapter;
 import com.pucmm.icc451.proyectoandroid.viewmodel.AuthViewModel;
+import com.pucmm.icc451.proyectoandroid.util.UserUtils;
 import com.pucmm.icc451.proyectoandroid.viewmodel.ChatsListViewModel;
 
 public class ChatsListActivity extends AppCompatActivity {
@@ -35,6 +38,10 @@ public class ChatsListActivity extends AppCompatActivity {
 
         binding = ActivityChatsListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        User currentUser = UserRepository.getInstance().getCurrentUser();
+        binding.txtCurrentUserName.setText(currentUser.getName());
+        binding.txtAvatarInitials.setText(UserUtils.getInitials(currentUser.getName()));
 
         binding.recyclerViewConversations.setLayoutManager(new LinearLayoutManager(this));
         adapter = new ChatAdapter((chat, otherUserId, otherUserName) -> {
