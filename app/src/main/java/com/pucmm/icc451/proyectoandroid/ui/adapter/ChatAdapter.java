@@ -9,6 +9,8 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.pucmm.icc451.proyectoandroid.R;
 import com.pucmm.icc451.proyectoandroid.model.Chat;
+import com.pucmm.icc451.proyectoandroid.model.User;
+import com.pucmm.icc451.proyectoandroid.repository.UserRepository;
 import com.pucmm.icc451.proyectoandroid.util.UserUtils;
 
 import java.util.ArrayList;
@@ -17,7 +19,6 @@ import java.util.List;
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
 
     private List<Chat> chatList = new ArrayList<>();
-    private final String currentUserId = "MyId";
 
     public interface OnChatClickListener {
         void onChatClick(Chat chat, String otherUserId, String otherUserName);
@@ -45,7 +46,8 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
         Chat chat = chatList.get(position);
 
-        String otherUserId = chat.getParticipantIds().get(0).equals(currentUserId) ?
+        User currentUser = UserRepository.getInstance().getCurrentUser();
+        String otherUserId = chat.getParticipantIds().get(0).equals(currentUser.getId()) ?
                 chat.getParticipantIds().get(1) : chat.getParticipantIds().get(0);
 
         String contactName = chat.getParticipantNames().get(otherUserId);

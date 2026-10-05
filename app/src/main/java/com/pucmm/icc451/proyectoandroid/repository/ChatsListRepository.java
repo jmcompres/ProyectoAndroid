@@ -1,23 +1,29 @@
 package com.pucmm.icc451.proyectoandroid.repository;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.pucmm.icc451.proyectoandroid.model.Chat;
+import com.pucmm.icc451.proyectoandroid.model.User;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ChatsListRepository {
 
     private static ChatsListRepository instance = null;
     private final MutableLiveData<List<Chat>> chatsLiveData = new MutableLiveData<>();
+    private final FirebaseFirestore db;
 
     private ChatsListRepository() {
-        loadMockChats();
+        db = FirebaseFirestore.getInstance();
+        loadChats();
     }
 
     public static ChatsListRepository getInstance() {
@@ -31,38 +37,26 @@ public class ChatsListRepository {
         return chatsLiveData;
     }
 
-    private void loadMockChats() {
-        List<Chat> mockChats = new ArrayList<>();
-        String myId = "MyId";
+    private void loadChats() {
+        User currentUser = UserRepository.getInstance().getCurrentUser();
 
-        Map<String, String> names1 = new HashMap<>();
-        names1.put(myId, "José Miguel");
-        names1.put("id_lucia", "Lucía Morales");
+        db.collection("Conversations")
+                .whereArrayContains("participantIds", currentUser.getId())
+                .orderBy("lastMessageTimestamp", Query.Direction.DESCENDING)
+                .addSnapshotListener((snapshots, error) -> {
+                    if (error != null) {
+                        Log.e("ChatsListRepository", "Error al escuchar las conversaciones", error);
+                        return;
+                    }
 
-        mockChats.add(new Chat(
-                "MyId_id_lucia",
-                Arrays.asList(myId, "id_lucia"),
-                names1,
-                "Perfecto, nos vemos entonces.",
-                "Lucía Morales",
-                System.currentTimeMillis(),
-                3
-        ));
-
-        Map<String, String> names2 = new HashMap<>();
-        names2.put(myId, "José Miguel");
-        names2.put("id_diego", "Diego Ruiz");
-
-        mockChats.add(new Chat(
-                "MyId_id_diego",
-                Arrays.asList(myId, "id_diego"),
-                names2,
-                "Te envié los archivos del proyecto.",
-                "José Miguel",
-                System.currentTimeMillis(),
-                0
-        ));
-
-        chatsLiveData.setValue(mockChats);
+                    if (snapshots != null) {
+                        List<Chat> chatList = new ArrayList<>();
+                        for (QueryDocumentSnapshot doc : snapshots) {
+                            Chat chat = doc.toObject(Chat.class);
+                            chatList.add(chat);
+                        }
+                        chatsLiveData.setValue(chatList);
+                    }
+                });
     }
 }
