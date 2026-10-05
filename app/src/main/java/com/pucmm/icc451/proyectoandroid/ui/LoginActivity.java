@@ -38,6 +38,13 @@ public class LoginActivity extends AppCompatActivity {
 
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
+        if (authViewModel.getCurrentUser() != null) {
+            Intent intent = new Intent(this, ChatsListActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
         setupSignUpLink();
         setupObservers();
         setupClickListener();
@@ -99,7 +106,10 @@ public class LoginActivity extends AppCompatActivity {
         authViewModel.getAuthSuccess().observe(this, success -> {
             if (success != null && success) {
                 Toast.makeText(this, "¡Inicio de sesión exitoso!", Toast.LENGTH_SHORT).show();
-                // pendiente poner el intent para la vista principal
+
+                Intent intent = new Intent(this, ChatsListActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
