@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:letterSpacing="0.1"
-        android:text="MENSAJES"
+        android:text=" "
         android:textAllCaps="true"
         android:textColor="@color/txt_gray"
         android:textSize="12sp"

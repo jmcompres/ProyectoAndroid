@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 
 import com.pucmm.icc451.proyectoandroid.R;
 import com.pucmm.icc451.proyectoandroid.model.Message;
+import com.pucmm.icc451.proyectoandroid.util.ChatUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -62,8 +63,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         Message message = messages.get(position);
         holder.textContent.setText(message.getText());
 
-        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a", Locale.getDefault());
-        String timeString = sdf.format(new Date(message.getTimestamp()));
+        String timeString = ChatUtils.formatTimeStamp(message.getTimestamp());
         holder.textTimeStamp.setText(timeString);
 
         if (holder.textUserName != null) {

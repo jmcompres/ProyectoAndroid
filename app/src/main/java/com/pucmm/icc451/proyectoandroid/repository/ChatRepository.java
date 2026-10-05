@@ -68,7 +68,6 @@ public class ChatRepository {
         String chatId = ChatUtils.getChatId(senderId, receiverUserId);
 
         String messageId = java.util.UUID.randomUUID().toString();
-        //TODO cambiar este timestamp para usar el de firebase
         long currentTimestamp = System.currentTimeMillis();
 
         Message newMessage = new Message(
