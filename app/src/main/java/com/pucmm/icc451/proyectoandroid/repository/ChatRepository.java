@@ -93,7 +93,7 @@ public class ChatRepository {
         chatUpdates.put("participantIds", Arrays.asList(senderId, receiverUserId));
         chatUpdates.put("lastMessageText", text);
         chatUpdates.put("lastMessageTimestamp", currentTimestamp);
-        chatUpdates.put("lastMessageUserName", senderName);
+        chatUpdates.put("lastMessageUserId", senderId);
         Map<String,String> mapNames = new HashMap<>();
         mapNames.put(senderId, senderName);
         mapNames.put(receiverUserId, receiverName);

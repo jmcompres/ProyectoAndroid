@@ -17,7 +17,7 @@ public class Chat {
     private List<String> participantIds;
     private Map<String, String> participantNames;
     private String lastMessageText;
-    private String lastMessageUserName;
+    private String lastMessageUserId;
     private long lastMessageTimestamp;
     private int unreadCount;
 }

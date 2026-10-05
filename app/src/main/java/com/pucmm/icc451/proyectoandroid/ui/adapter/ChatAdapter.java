@@ -58,7 +58,15 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         String initials = UserUtils.getInitials(contactName);
         holder.txtAvatarInitials.setText(initials);
 
-        holder.txtLastMessage.setText(chat.getLastMessageText());
+        String lastMessagePrefix = "";
+        if (chat.getLastMessageUserId()!=null && chat.getParticipantNames()!=null) {
+            if (chat.getLastMessageUserId().equals(currentUser.getId())) {
+                lastMessagePrefix = "Tú: ";
+            }
+            else if (chat.getParticipantNames().get(chat.getLastMessageUserId())!=null) lastMessagePrefix = ""+chat.getParticipantNames().get(chat.getLastMessageUserId()).split(" ")[0]+": ";
+        }
+
+        holder.txtLastMessage.setText(lastMessagePrefix + chat.getLastMessageText());
         holder.txtTime.setText("12:00 P.M."); // TODO Formatear el chat.getLastMessageTimestamp()
 
         if (chat.getUnreadCount() > 0) {
