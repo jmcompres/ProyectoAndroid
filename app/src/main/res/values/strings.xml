@@ -18,4 +18,7 @@
     <string name="btnCreateAccount">Crear cuenta</string>
     <string name="lblSignInLink">¿Ya tienes una cuenta? Inicia sesión</string>
     <string name="lblSignInClick">Inicia sesión</string>
+    <string name="title_activity_chat">ChatActivity</string>
+    <string name="send_message_text">Enviar</string>
+    <string name="hint_message_content_edit">Escribe un mensaje...</string>
 </resources>

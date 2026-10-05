@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_login_gradient">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardCurrentUserAvatar"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        app:cardBackgroundColor="#1A1A1A"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="JM"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/txtCurrentUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="José Miguel"
+        android:textColor="@color/txt_title"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/cardCurrentUserAvatar"
+        app:layout_constraintStart_toEndOf="@+id/cardCurrentUserAvatar"
+        app:layout_constraintTop_toTopOf="@+id/cardCurrentUserAvatar" />
+
+    <TextView
+        android:id="@+id/lblMensajes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:letterSpacing="0.1"
+        android:text="MENSAJES"
+        android:textAllCaps="true"
+        android:textColor="@color/txt_gray"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="@+id/cardCurrentUserAvatar"
+        app:layout_constraintTop_toBottomOf="@+id/cardCurrentUserAvatar" />
+
+    <TextView
+        android:id="@+id/lblConversaciones"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Conversaciones"
+        android:textColor="@color/txt_title"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/lblMensajes"
+        app:layout_constraintTop_toBottomOf="@+id/lblMensajes" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/searchLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginTop="24dp"
+        app:boxBackgroundColor="#FDFBF8"
+        app:boxCornerRadiusBottomEnd="24dp"
+        app:boxCornerRadiusBottomStart="24dp"
+        app:boxCornerRadiusTopEnd="24dp"
+        app:boxCornerRadiusTopStart="24dp"
+        app:boxStrokeWidth="1dp"
+        app:boxStrokeColor="#E0E0E0"
+        app:hintEnabled="false"
+        app:startIconDrawable="@android:drawable/ic_menu_search"
+        app:startIconTint="@color/txt_gray"
+        app:layout_constraintTop_toBottomOf="@+id/lblConversaciones">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Buscar conversación"
+            android:textColorHint="@color/txt_gray"
+            android:textColor="@color/txt_title"
+            android:inputType="text"
+            android:paddingVertical="12dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewConversations"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:clipToPadding="false"
+        android:paddingBottom="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchLayout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
