@@ -12,25 +12,48 @@ import androidx.annotation.NonNull;
 import com.pucmm.icc451.proyectoandroid.R;
 import com.pucmm.icc451.proyectoandroid.model.Message;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-
-import lombok.Setter;
+import java.util.Locale;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageViewHolder> {
 
+    private static final int VIEW_TYPE_SENT = 1;
+    private static final int VIEW_TYPE_RECEIVED = 2;
+
     private List<Message> messages = new ArrayList<>();
+    private final String currentUserId;
+
+    public MessageAdapter(String currentUserId) {
+        this.currentUserId = currentUserId;
+    }
 
     public void setMessages (List<Message> messages) {
         this.messages = messages;
         notifyDataSetChanged();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        Message message = messages.get(position);
+        if (message.getSenderId().equals(currentUserId)) {
+            return VIEW_TYPE_SENT;
+        } else {
+            return VIEW_TYPE_RECEIVED;
+        }
+    }
+
     @NonNull
     @Override
     public MessageViewHolder onCreateViewHolder (@NonNull ViewGroup parent, int viewType) {
-        //TODO cambiar el tipo de contenedor de mesnaje según quien envíe el mensaje
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message_sent, parent, false);
+        View view;
+        if (viewType == VIEW_TYPE_SENT) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message_sent, parent, false);
+        } else {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_message_received, parent, false);
+        }
         return new MessageViewHolder(view);
     }
 
@@ -38,9 +61,18 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         Message message = messages.get(position);
         holder.textContent.setText(message.getText());
-        //TODO cambiar el usuario y el teimestamp
-        holder.textUserName.setText("TÚ");
-        holder.textTimeStamp.setText("12:00 P.M.");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("hh:mm a", Locale.getDefault());
+        String timeString = sdf.format(new Date(message.getTimestamp()));
+        holder.textTimeStamp.setText(timeString);
+
+        if (holder.textUserName != null) {
+            if (message.getSenderId().equals(currentUserId)) {
+                holder.textUserName.setText("Tú");
+            } else {
+                holder.textUserName.setText(message.getSenderName());
+            }
+        }
     }
 
     @Override
@@ -56,8 +88,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         public MessageViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            //textUserName = itemView.findViewById(R.id.txtSenderUser);
-            textUserName = itemView.findViewById(R.id.txtSelfUser);
+            textUserName = itemView.findViewById(R.id.txtSenderUser);
             textContent = itemView.findViewById(R.id.txtMessageContent);
             textTimeStamp = itemView.findViewById(R.id.txtTimeStamp);
         }
