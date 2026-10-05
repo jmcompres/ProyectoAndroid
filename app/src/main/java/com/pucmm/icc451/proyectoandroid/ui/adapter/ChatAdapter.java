@@ -10,20 +10,18 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.pucmm.icc451.proyectoandroid.R;
+import com.pucmm.icc451.proyectoandroid.model.Chat;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import lombok.Setter;
-import lombok.SuperBuilder;
-
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
 
-    //De mock por ahora
-    private List<String> userNames = new ArrayList<>();
+    private List<Chat> chatList = new ArrayList<>();
+    private final String currentUserId = "MyId";
 
-    public void setUsers(List<String> users) {
-        this.userNames = users;
+    public void setChats(List<Chat> chats) {
+        this.chatList = chats;
         notifyDataSetChanged();
     }
 
@@ -36,42 +34,44 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
-        String name = userNames.get(position);
-        holder.txtContactName.setText(name);
+        Chat chat = chatList.get(position);
+
+        String otherUserId = chat.getParticipantIds().get(0).equals(currentUserId) ?
+                chat.getParticipantIds().get(1) : chat.getParticipantIds().get(0);
+
+        String contactName = chat.getParticipantNames().get(otherUserId);
+        if (contactName == null) contactName = "Usuario Desconocido";
+
+        holder.txtContactName.setText(contactName);
 
         String initials = "";
-        String[] parts = name.split(" ");
+        String[] parts = contactName.split(" ");
         int nParts = parts.length;
-        if (nParts> 0 && !parts[0].isEmpty()) initials += parts[0].substring(0, 1).toUpperCase();
-        if (nParts> 1 && !parts[nParts-1].isEmpty()) initials += parts[nParts-1].substring(0, 1).toUpperCase();
+        if (nParts > 0 && !parts[0].isEmpty()) initials += parts[0].substring(0, 1).toUpperCase();
+        if (nParts > 1 && !parts[nParts-1].isEmpty()) initials += parts[nParts-1].substring(0, 1).toUpperCase();
         holder.txtAvatarInitials.setText(initials);
 
-        //TODO cambiar esto
-        holder.txtLastMessage.setText("Último mensaje con " + name);
-        holder.txtTime.setText("12:00 P.M.");
-        if (position<2) {
+        holder.txtLastMessage.setText(chat.getLastMessageText());
+        holder.txtTime.setText("12:00 P.M."); // TODO Formatear el chat.getLastMessageTimestamp()
+
+        if (chat.getUnreadCount() > 0) {
             holder.cardUnreadBadge.setVisibility(View.VISIBLE);
-            holder.txtUnreadCount.setText("3");
-        }
-        else {
+            holder.txtUnreadCount.setText(String.valueOf(chat.getUnreadCount()));
+        } else {
             holder.cardUnreadBadge.setVisibility(View.GONE);
         }
     }
 
     @Override
     public int getItemCount() {
-        return userNames.size();
+        return chatList.size();
     }
 
     class ChatViewHolder extends RecyclerView.ViewHolder {
-        TextView txtContactName;
-        TextView txtLastMessage;
-        TextView txtTime;
-        TextView txtAvatarInitials;
-        TextView txtUnreadCount;
+        TextView txtContactName, txtLastMessage, txtTime, txtAvatarInitials, txtUnreadCount;
         CardView cardUnreadBadge;
 
-        public ChatViewHolder (@NonNull View itemView) {
+        public ChatViewHolder(@NonNull View itemView) {
             super(itemView);
             txtContactName = itemView.findViewById(R.id.txtContactName);
             txtLastMessage = itemView.findViewById(R.id.txtLastMessage);
@@ -81,5 +81,4 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             cardUnreadBadge = itemView.findViewById(R.id.cardUnreadBadge);
         }
     }
-
 }
