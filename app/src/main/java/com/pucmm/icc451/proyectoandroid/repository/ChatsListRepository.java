@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.pucmm.icc451.proyectoandroid.model.Chat;
@@ -28,23 +29,40 @@ public class ChatsListRepository {
     private List<User> allUsersList = new ArrayList<>();
     private List<Chat> activeChatsList = new ArrayList<>();
 
+    private ListenerRegistration usersListener;
+    private ListenerRegistration chatsListener;
+
     private String myId;
     private String myName;
 
-    private ChatsListRepository() {
+    private ChatsListRepository(String currentUserId, String currentUserName) {
         db = FirebaseFirestore.getInstance();
-
-        User currentUser = UserRepository.getInstance().getCurrentUser();
-        myId = currentUser.getId();
-        myName = currentUser.getName();
+        this.myId = currentUserId;
+        this.myName = currentUserName;
         loadUsersAndChats();
     }
 
     public static ChatsListRepository getInstance() {
-        if (instance == null) {
-            instance = new ChatsListRepository();
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (firebaseUser == null) return instance;
+
+        String actualUid = firebaseUser.getUid();
+        String actualName = firebaseUser.getDisplayName();
+
+        if (instance == null || !instance.myId.equals(actualUid)) {
+
+            if (instance != null) {
+                instance.cleanup();
+            }
+
+            instance = new ChatsListRepository(actualUid, actualName);
         }
         return instance;
+    }
+
+    public void cleanup() {
+        if (usersListener != null) usersListener.remove();
+        if (chatsListener != null) chatsListener.remove();
     }
 
     public LiveData<List<Chat>> getChats() {
@@ -52,7 +70,7 @@ public class ChatsListRepository {
     }
 
     private void loadUsersAndChats() {
-        db.collection("users").addSnapshotListener((snapshots, error) -> {
+        usersListener = db.collection("users").addSnapshotListener((snapshots, error) -> {
             if (error != null || snapshots == null) return;
 
             List<User> users = new ArrayList<>();
@@ -63,11 +81,11 @@ public class ChatsListRepository {
                 }
             }
             allUsersList = users;
-            Log.d("DEBUG", "T0tal de usuarios = " + allUsersList.size());
+            Log.d("DEBUG", "Total de usuarios = " + allUsersList.size());
             combineData();
         });
 
-        db.collection("Chats")
+        chatsListener = db.collection("Chats")
                 .whereArrayContains("participantIds", myId)
                 .addSnapshotListener((snapshots, error) -> {
                     if (error != null || snapshots == null) return;
