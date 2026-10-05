@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_login_gradient">
@@ -12,13 +13,13 @@
         android:background="@android:color/transparent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center_vertical">
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
 
             <!-- Avatar de contacto -->
             <androidx.cardview.widget.CardView
@@ -44,12 +45,12 @@
                 android:id="@+id/txtToolbarUserName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_marginStart="12dp"
                 android:text="Usuario"
                 android:textColor="@color/txt_title"
-                android:textStyle="bold"
                 android:textSize="18sp"
-                android:layout_gravity="center_vertical"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
     </com.google.android.material.appbar.MaterialToolbar>
@@ -59,15 +60,15 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#1A000000"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarChat"/>
+        app:layout_constraintTop_toBottomOf="@+id/toolbarChat" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewMessages"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
-        android:paddingBottom="8dp"
         android:paddingTop="16dp"
+        android:paddingBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/layoutInputArea"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,8 +78,8 @@
         android:id="@+id/layoutInputArea"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
         android:background="@android:color/transparent"
+        android:padding="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -91,17 +92,17 @@
             android:layout_marginEnd="12dp"
             app:boxBackgroundColor="#FDFBF8"
             app:boxBackgroundMode="outline"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeColor="@android:color/transparent"
             app:boxCornerRadiusBottomEnd="16dp"
             app:boxCornerRadiusBottomStart="16dp"
             app:boxCornerRadiusTopEnd="16dp"
             app:boxCornerRadiusTopStart="16dp"
+            app:boxStrokeColor="@android:color/transparent"
+            app:boxStrokeWidth="0dp"
             app:hintEnabled="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btnSendMessage"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" >
+            app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editMessageText"
