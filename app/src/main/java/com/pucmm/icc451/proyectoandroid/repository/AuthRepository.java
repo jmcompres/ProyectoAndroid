@@ -6,15 +6,22 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.pucmm.icc451.proyectoandroid.model.User;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AuthRepository {
     private final FirebaseAuth firebaseAuth;
     private final FirebaseFirestore db;
+    private final FirebaseMessaging messaging;
 
     public AuthRepository() {
         this.firebaseAuth = FirebaseAuth.getInstance();
         this.db = FirebaseFirestore.getInstance();
+        this.messaging = FirebaseMessaging.getInstance();
     }
     public Task<Void> register(String name, String email, String password) {
         return firebaseAuth.createUserWithEmailAndPassword(email, password)
@@ -50,5 +57,21 @@ public class AuthRepository {
 
     public FirebaseUser getCurrentUser() {
         return firebaseAuth.getCurrentUser();
+    }
+
+    public void updateDeviceToken(String userId) {
+        messaging.getToken().addOnCompleteListener(task -> {
+            if (!task.isSuccessful() || task.getResult() == null) return;
+            saveDeviceToken(userId, task.getResult());
+        });
+    }
+
+    public void saveDeviceToken(String userId, String token) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("fcmToken", token);
+
+        db.collection("users")
+                .document(userId)
+                .set(data, SetOptions.merge());
     }
 }

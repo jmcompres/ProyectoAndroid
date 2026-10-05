@@ -43,6 +43,11 @@ public class AuthViewModel extends ViewModel {
         repository.register(name, email, password).addOnCompleteListener(task -> {
             isLoading.setValue(false);
             if (task.isSuccessful()) {
+                FirebaseUser currentUser = repository.getCurrentUser();
+                if (currentUser != null) {
+                    repository.updateDeviceToken(currentUser.getUid());
+                }
+
                 authSuccess.setValue(true);
             } else {
                 handleAuthError(task.getException());
@@ -59,6 +64,11 @@ public class AuthViewModel extends ViewModel {
         repository.login(email, password).addOnCompleteListener(task -> {
             isLoading.setValue(false);
             if (task.isSuccessful()) {
+                FirebaseUser currentUser = repository.getCurrentUser();
+                if (currentUser != null) {
+                    repository.updateDeviceToken(currentUser.getUid());
+                }
+
                 authSuccess.setValue(true);
             } else {
                 handleAuthError(task.getException());
