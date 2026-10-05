@@ -1,5 +1,6 @@
 package com.pucmm.icc451.proyectoandroid.ui;
 
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -36,6 +37,13 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
+
+        if (authViewModel.getCurrentUser() != null) {
+            Intent intent = new Intent(this, ChatsListActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
 
         setupSignInLink();
         setupObservers();
@@ -96,7 +104,10 @@ public class RegisterActivity extends AppCompatActivity {
         authViewModel.getAuthSuccess().observe(this, success -> {
             if (success != null && success) {
                 Toast.makeText(this, "¡Cuenta creada con éxito!", Toast.LENGTH_SHORT).show();
-                // Pendiente poner el intent para la pantalla principal
+
+                Intent intent = new Intent(this, ChatsListActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
