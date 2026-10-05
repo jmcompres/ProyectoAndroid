@@ -106,4 +106,21 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchLayout" />
 
+    <Button
+        android:id="@+id/btnLogout"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="@string/btnLogout"
+        android:textColor="@color/txt_title"
+        android:textSize="12sp"
+        app:cornerRadius="24dp"
+        app:icon="@drawable/ic_logout"
+        app:iconTint="@color/txt_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/txt_gray" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
