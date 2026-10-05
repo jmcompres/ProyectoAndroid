@@ -30,13 +30,14 @@
                 app:cardElevation="0dp">
                 <!-- Inciales para el avatar -->
                 <TextView
+                    android:id="@+id/txtToolbarInitials"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:text="U"
                     android:textColor="@color/white"
-                    android:textStyle="bold"
-                    android:textSize="14sp"/>
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
             </androidx.cardview.widget.CardView>
 
             <TextView

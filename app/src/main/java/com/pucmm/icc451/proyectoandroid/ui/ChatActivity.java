@@ -2,26 +2,15 @@ package com.pucmm.icc451.proyectoandroid.ui;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.pucmm.icc451.proyectoandroid.R;
 import com.pucmm.icc451.proyectoandroid.databinding.ActivityChatBinding;
 import com.pucmm.icc451.proyectoandroid.enums.Extras;
 import com.pucmm.icc451.proyectoandroid.ui.adapter.MessageAdapter;
+import com.pucmm.icc451.proyectoandroid.util.UserUtils;
 import com.pucmm.icc451.proyectoandroid.viewmodel.ChatViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -43,7 +32,12 @@ public class ChatActivity extends AppCompatActivity {
 
         chatViewModel = new ChatViewModel();
 
-        String receiverId = getIntent().getStringExtra(Extras.EXTRA_TARGET_USER.name());
+        String receiverId = getIntent().getStringExtra(Extras.EXTRA_TARGET_USER_ID.name());
+        String receiverName = getIntent().getStringExtra(Extras.EXTRA_TARGET_USER_NAME.name());
+
+        binding.txtToolbarUserName.setText(receiverName);
+        binding.txtToolbarInitials.setText(UserUtils.getInitials(receiverName));
+
         chatViewModel.getMessages(receiverId).observe(this, messages -> {
             adapter.setMessages(messages);
             if (!messages.isEmpty()) {
@@ -55,7 +49,7 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String text = binding.editMessageText.getText().toString();
-                String receiverId = getIntent().getStringExtra(Extras.EXTRA_TARGET_USER.name());
+                String receiverId = getIntent().getStringExtra(Extras.EXTRA_TARGET_USER_ID.name());
                 boolean updated = chatViewModel.sendMessage(text, receiverId);
                 if (updated) binding.editMessageText.setText("");
             }
