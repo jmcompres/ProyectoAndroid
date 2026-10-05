@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModel;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.auth.FirebaseUser;
 import com.pucmm.icc451.proyectoandroid.repository.AuthRepository;
 
 public class AuthViewModel extends ViewModel {
@@ -121,4 +122,14 @@ public class AuthViewModel extends ViewModel {
         passwordError.setValue(null);
         authError.setValue(null);
     }
+
+    public FirebaseUser getCurrentUser() {
+        return repository.getCurrentUser();
+    }
+
+    public void logout() {
+        repository.logout();
+        clearFormState();
+    }
+
 }
