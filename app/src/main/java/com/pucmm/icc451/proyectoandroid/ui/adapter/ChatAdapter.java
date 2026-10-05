@@ -11,6 +11,7 @@ import com.pucmm.icc451.proyectoandroid.R;
 import com.pucmm.icc451.proyectoandroid.model.Chat;
 import com.pucmm.icc451.proyectoandroid.model.User;
 import com.pucmm.icc451.proyectoandroid.repository.UserRepository;
+import com.pucmm.icc451.proyectoandroid.util.ChatUtils;
 import com.pucmm.icc451.proyectoandroid.util.UserUtils;
 
 import java.util.ArrayList;
@@ -67,7 +68,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         }
 
         holder.txtLastMessage.setText(lastMessagePrefix + chat.getLastMessageText());
-        holder.txtTime.setText("12:00 P.M."); // TODO Formatear el chat.getLastMessageTimestamp()
+
+        String timeString = ((chat.getLastMessageUserId().isEmpty())?
+               "--:--" : ChatUtils.formatTimeStamp(chat.getLastMessageTimestamp()));
+        holder.txtTime.setText(timeString);
 
         if (chat.getUnreadCount() > 0) {
             holder.cardUnreadBadge.setVisibility(View.VISIBLE);
