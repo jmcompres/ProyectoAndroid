@@ -43,7 +43,8 @@ public class ChatActivity extends AppCompatActivity {
 
         chatViewModel = new ChatViewModel();
 
-        chatViewModel.getMessages().observe(this, messages -> {
+        String receiverId = getIntent().getStringExtra(Extras.EXTRA_TARGET_USER.name());
+        chatViewModel.getMessages(receiverId).observe(this, messages -> {
             adapter.setMessages(messages);
             if (!messages.isEmpty()) {
                 binding.recyclerViewMessages.scrollToPosition(messages.size() - 1);

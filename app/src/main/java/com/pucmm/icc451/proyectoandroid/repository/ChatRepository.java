@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.pucmm.icc451.proyectoandroid.model.Message;
+import com.pucmm.icc451.proyectoandroid.util.ChatUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,11 +16,9 @@ import java.util.Map;
 public class ChatRepository {
 
     private static ChatRepository instance = null;
-    private final List<Message> localMessages = new ArrayList<>();
-    private final MutableLiveData<List<Message>> messagesLiveData = new MutableLiveData<>();
+    private final Map<String, MutableLiveData<List<Message>>> mockDatabase = new HashMap<>();
 
     private ChatRepository() {
-        messagesLiveData.setValue(new ArrayList<>(localMessages));
     }
 
     public static ChatRepository getInstance() {
@@ -29,13 +28,16 @@ public class ChatRepository {
         return instance;
     }
 
-    public LiveData<List<Message>> getMessages() {
-        return messagesLiveData;
+    public LiveData<List<Message>> getMessages(String chatId) {
+        if (!mockDatabase.containsKey(chatId)) {
+            mockDatabase.put(chatId, new MutableLiveData<>(new ArrayList<>()));
+        }
+        return mockDatabase.get(chatId);
     }
 
     public void sendMessage(String text, String senderId, String receiverUserId, String senderName) {
 
-        String chatId = getChatId(senderId, receiverUserId);
+        String chatId = ChatUtils.getChatId(senderId, receiverUserId);
 
         String messageId = java.util.UUID.randomUUID().toString();
         //TODO cambiar este timestamp para usar el de firebase
@@ -50,8 +52,15 @@ public class ChatRepository {
                 currentTimestamp
         );
 
-        Map<String, Object> chatUpdates = new HashMap<>();
+        if (!mockDatabase.containsKey(chatId)) {
+            mockDatabase.put(chatId, new MutableLiveData<>(new ArrayList<>()));
+        }
+        MutableLiveData<List<Message>> chatLiveData = mockDatabase.get(chatId);
+        List<Message> currentMessages = chatLiveData.getValue();
+        currentMessages.add(newMessage);
+        chatLiveData.postValue(currentMessages);
 
+        Map<String, Object> chatUpdates = new HashMap<>();
         List<String> participants = new ArrayList<>();
         participants.add(senderId);
         participants.add(receiverUserId);
@@ -59,19 +68,7 @@ public class ChatRepository {
         chatUpdates.put("lastMessageText", text);
         chatUpdates.put("lastMessageTimestamp", currentTimestamp);
         chatUpdates.put("lastMessageUserName", senderName);
-
-        localMessages.add(newMessage);
-        messagesLiveData.postValue(new ArrayList<>(localMessages));
-
         //TODO Luego hay que actualizar la conversación con firebase
         Log.d("LOG", "Conversación " + chatId + " actualizada por " + senderName + " con el mensaje: " + text);
-    }
-
-    public String getChatId(String myId, String otherUserId) {
-        if (myId.compareTo(otherUserId) < 0) {
-            return myId + "_" + otherUserId;
-        } else {
-            return otherUserId + "_" + myId;
-        }
     }
 }
