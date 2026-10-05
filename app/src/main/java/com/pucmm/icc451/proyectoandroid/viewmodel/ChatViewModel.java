@@ -25,12 +25,12 @@ public class ChatViewModel {
         return ChatRepository.getInstance().getMessages(ChatUtils.getChatId(currentUser.getId(), otherUserId));
     }
 
-    public boolean sendMessage(String messageContent, String receiverUserId) {
+    public boolean sendMessage(String messageContent, String receiverUserId, String receiverName) {
         if (messageContent == null || messageContent.trim().isEmpty()) return false;
         if (receiverUserId == null) return false;
 
         User currentUser = UserRepository.getInstance().getCurrentUser();
-        repository.sendMessage(messageContent, currentUser.getId(), receiverUserId, currentUser.getName());
+        repository.sendMessage(messageContent, currentUser.getId(), receiverUserId, currentUser.getName(), receiverName);
         return true;
     }
 
