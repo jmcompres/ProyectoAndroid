@@ -34,4 +34,12 @@ public class ChatViewModel {
         return true;
     }
 
+    public void sendImageMessage(android.net.Uri imageUri, String receiverUserId, String receiverName) {
+        User currentUser = UserRepository.getInstance().getCurrentUser();
+
+        if (currentUser.getId() != null && receiverUserId != null) {
+            repository.sendImageMessage(imageUri, currentUser.getId(), receiverUserId, currentUser.getName(), receiverName);
+        }
+    }
+
 }

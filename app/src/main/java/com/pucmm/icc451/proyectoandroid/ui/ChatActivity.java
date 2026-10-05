@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -23,6 +25,18 @@ public class ChatActivity extends AppCompatActivity {
 
     private MessageAdapter adapter;
     private ChatViewModel chatViewModel;
+
+    private final ActivityResultLauncher<String> imagePickerLauncher = registerForActivityResult(
+            new ActivityResultContracts.GetContent(),
+            uri -> {
+                if (uri != null) {
+                    String receiverId = getIntent().getStringExtra(Extras.EXTRA_TARGET_USER_ID.name());
+
+                    chatViewModel.sendImageMessage(uri, receiverId, binding.txtToolbarUserName.getText().toString());
+                }
+            }
+    );
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +74,8 @@ public class ChatActivity extends AppCompatActivity {
                 if (updated) binding.editMessageText.setText("");
             }
         });
+
+        binding.btnAttachImage.setOnClickListener(v -> imagePickerLauncher.launch("image/*"));
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.main, (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars() | WindowInsetsCompat.Type.ime());

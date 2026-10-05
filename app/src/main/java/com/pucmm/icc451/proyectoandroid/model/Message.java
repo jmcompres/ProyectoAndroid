@@ -16,4 +16,5 @@ public class Message {
     private String senderId;
     private String senderName;
     private long timestamp;
+    private String imageUrl;
 }

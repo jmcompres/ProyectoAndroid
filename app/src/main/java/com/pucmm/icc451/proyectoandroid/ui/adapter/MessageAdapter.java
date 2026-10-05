@@ -3,12 +3,14 @@ package com.pucmm.icc451.proyectoandroid.ui.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
 import com.pucmm.icc451.proyectoandroid.R;
 import com.pucmm.icc451.proyectoandroid.model.Message;
 import com.pucmm.icc451.proyectoandroid.util.ChatUtils;
@@ -61,7 +63,17 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         Message message = messages.get(position);
-        holder.textContent.setText(message.getText());
+        if (message.getImageUrl() != null && !message.getImageUrl().isEmpty()) {
+            holder.textContent.setVisibility(View.GONE);
+            holder.imageContent.setVisibility(View.VISIBLE);
+            Glide.with(holder.itemView.getContext())
+                    .load(message.getImageUrl())
+                    .into(holder.imageContent);
+        } else {
+            holder.textContent.setVisibility(View.VISIBLE);
+            holder.imageContent.setVisibility(View.GONE);
+            holder.textContent.setText(message.getText());
+        }
 
         String timeString = ChatUtils.formatTimeStamp(message.getTimestamp());
         holder.textTimeStamp.setText(timeString);
@@ -84,6 +96,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
         TextView textUserName;
         TextView textContent;
         TextView textTimeStamp;
+        ImageView imageContent;
 
         public MessageViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -91,6 +104,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
             textUserName = itemView.findViewById(R.id.txtSenderUser);
             textContent = itemView.findViewById(R.id.txtMessageContent);
             textTimeStamp = itemView.findViewById(R.id.txtTimeStamp);
+            imageContent = itemView.findViewById(R.id.imgMessageContent);
         }
     }
 }
