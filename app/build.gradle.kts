@@ -75,4 +75,5 @@ dependencies {
     annotationProcessor(libs.lombok)
     debugImplementation(libs.ui.test.manifest)
     debugImplementation(libs.ui.tooling)
+    implementation(libs.glide)
 }

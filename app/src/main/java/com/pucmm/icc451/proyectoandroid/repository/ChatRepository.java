@@ -1,5 +1,6 @@
 package com.pucmm.icc451.proyectoandroid.repository;
 
+import android.net.Uri;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -9,6 +10,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.pucmm.icc451.proyectoandroid.model.Message;
 import com.pucmm.icc451.proyectoandroid.util.ChatUtils;
 
@@ -23,9 +26,11 @@ public class ChatRepository {
     private static ChatRepository instance = null;
     private final FirebaseFirestore db;
     private final Map<String, MutableLiveData<List<Message>>> chatListeners = new HashMap<>();
+    private final FirebaseStorage storage;
 
     private ChatRepository() {
         db = FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance();
     }
 
     public static ChatRepository getInstance() {
@@ -76,7 +81,8 @@ public class ChatRepository {
                 text,
                 senderId,
                 senderName,
-                currentTimestamp
+                currentTimestamp,
+                null
         );
 
         db.collection("Chats")
@@ -103,5 +109,46 @@ public class ChatRepository {
                 .set(chatUpdates, SetOptions.merge());
 
         Log.d("LOG", "Mensaje enviado y conversación actualizada en Firestore");
+    }
+
+    public void sendImageMessage(Uri imageUri, String senderId, String receiverUserId, String senderName, String receiverName) {
+        String chatId = ChatUtils.getChatId(senderId, receiverUserId);
+        String messageId = java.util.UUID.randomUUID().toString();
+
+        StorageReference storageRef = storage.getReference().child("chat_images").child(messageId + ".jpg");
+
+        storageRef.putFile(imageUri).addOnSuccessListener(taskSnapshot -> {
+            storageRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                String downloadUrl = uri.toString();
+
+                Map<String, Object> messageMap = new HashMap<>();
+                messageMap.put("messageId", messageId);
+                messageMap.put("chatId", chatId);
+                messageMap.put("text", "Imagen");
+                messageMap.put("imageUrl", downloadUrl);
+                messageMap.put("senderId", senderId);
+                messageMap.put("senderName", senderName);
+                messageMap.put("timestamp", System.currentTimeMillis());
+
+                db.collection("Chats")
+                        .document(chatId)
+                        .collection("Messages")
+                        .document(messageId)
+                        .set(messageMap);
+
+                Map<String, Object> chatUpdates = new HashMap<>();
+                chatUpdates.put("chatId", chatId);
+                chatUpdates.put("participantIds", Arrays.asList(senderId, receiverUserId));
+                chatUpdates.put("lastMessageText", "[Imagen]");
+                chatUpdates.put("lastMessageTimestamp", System.currentTimeMillis());
+                chatUpdates.put("lastMessageUserId", senderId);
+                Map<String,String> mapNames = new HashMap<>();
+                mapNames.put(senderId, senderName);
+                mapNames.put(receiverUserId, receiverName);
+                chatUpdates.put("participantNames", mapNames);
+
+                db.collection("Chats").document(chatId).set(chatUpdates, SetOptions.merge());
+            });
+        }).addOnFailureListener(e -> Log.e("ChatRepository", "Error subiendo imagen", e));
     }
 }
