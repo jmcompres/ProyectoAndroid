@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.pucmm.icc451.proyectoandroid.databinding.ActivityChatBinding;
 import com.pucmm.icc451.proyectoandroid.enums.Extras;
+import com.pucmm.icc451.proyectoandroid.repository.UserRepository;
 import com.pucmm.icc451.proyectoandroid.ui.adapter.MessageAdapter;
 import com.pucmm.icc451.proyectoandroid.util.UserUtils;
 import com.pucmm.icc451.proyectoandroid.viewmodel.ChatViewModel;
@@ -32,7 +33,7 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         binding.recyclerViewMessages.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new MessageAdapter();
+        adapter = new MessageAdapter(UserRepository.getInstance().getCurrentUser().getId());
         binding.recyclerViewMessages.setAdapter(adapter);
 
         chatViewModel = new ChatViewModel();

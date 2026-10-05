@@ -76,7 +76,7 @@ public class ChatRepository {
                 chatId,
                 text,
                 senderId,
-                receiverUserId,
+                senderName,
                 currentTimestamp
         );
 

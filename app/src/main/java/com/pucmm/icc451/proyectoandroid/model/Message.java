@@ -14,6 +14,6 @@ public class Message {
     private String chatId;
     private String text;
     private String senderId;
-    private String receiverId;
+    private String senderName;
     private long timestamp;
 }
